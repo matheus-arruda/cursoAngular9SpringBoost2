@@ -1,6 +1,10 @@
 package org.matheus.api.apimodulo2.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,6 +12,9 @@ import java.time.LocalDate;
 @Entity
 //Biblioteca Lombok, gera os metodos Get e Set automáticamente na compilação
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +23,14 @@ public class Cliente {
     private String nome;
     @Column(nullable = false, length = 11)
     private String cpf;
-    @Column
+    @Column(name = "data_cadastro")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataCadastro;
+
+    //prePersist, executa antes de persistir os dados, nesse caso, adicionamos a data no campo datacadastro
+    @PrePersist
+    public void prePersist() {
+        setDataCadastro(LocalDate.now());
+    }
 
 }
