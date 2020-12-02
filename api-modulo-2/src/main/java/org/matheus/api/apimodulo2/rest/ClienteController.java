@@ -38,7 +38,7 @@ public class ClienteController {
         return repository
                 .findById(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Cliente não encontrado")
                 );
     }
 
@@ -54,7 +54,7 @@ public class ClienteController {
                     return Void.TYPE;
                 })
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado")
                 );
 
     }
@@ -62,7 +62,7 @@ public class ClienteController {
     //Metodo de atualização do cliente
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@PathVariable Integer id, @RequestBody Cliente clienteAtualizado) {
+    public void atualizar(@PathVariable Integer id, @RequestBody @Valid Cliente clienteAtualizado) {
 
         repository
                 .findById(id)
@@ -76,4 +76,6 @@ public class ClienteController {
                 );
 
     }
+
+
 }
