@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+
 @RestController
 //Trata a url base
 @RequestMapping("/api/clientes")
@@ -22,13 +24,13 @@ public class ClienteController {
     //Classe para salvar os clientes
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente salvar(@RequestBody Cliente cliente) {
+    public Cliente salvar(@RequestBody @Valid Cliente cliente) {
 
         return repository.save(cliente);
 
     }
 
-    //Classe de pesquisa de clientes
+    //Metodo de pesquisa de clientes
     //Passa como parametro o id (/api/clientes/1) por exemplo
     @GetMapping("{id}")
     public Cliente acharPorId(@PathVariable Integer id) {
@@ -38,5 +40,40 @@ public class ClienteController {
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
                 );
+    }
+
+    //Metodo para deletar o cliente
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletar(@PathVariable Integer id) {
+
+        repository
+                .findById(id)
+                .map(cliente -> {
+                    repository.delete(cliente);
+                    return Void.TYPE;
+                })
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                );
+
+    }
+
+    //Metodo de atualização do cliente
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void atualizar(@PathVariable Integer id, @RequestBody Cliente clienteAtualizado) {
+
+        repository
+                .findById(id)
+                .map(cliente -> {
+                    clienteAtualizado.setNome(cliente.getNome());
+                    clienteAtualizado.setCpf(cliente.getCpf());
+                    return repository.save(clienteAtualizado);
+                })
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                );
+
     }
 }
