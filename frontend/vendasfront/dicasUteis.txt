@@ -1,0 +1,10 @@
+Gerar um novo componente pelo cli
+
+=> ng generate component nomeDoComponente ou ng g c nomeDoComponente
+
+se não quiser gerar os arquivos de teste, adicione no final do comando --skipTests=true, 
+dessa forma o arquivo *component.spec.ts será suprimido
+
+Gerar um novo module
+
+=> ng generate module nomeDoModulo ou ng g m nomeDoModulo
