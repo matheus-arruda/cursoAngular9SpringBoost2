@@ -12,6 +12,8 @@ import javax.validation.Valid;
 @RestController
 //Trata a url base
 @RequestMapping("/api/clientes")
+//Permitir tudo no cross '*'
+@CrossOrigin("http://localhost:4200")
 public class ClienteController {
 
     private final ClienteRepository repository;
