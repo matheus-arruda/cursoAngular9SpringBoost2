@@ -13,8 +13,6 @@ import java.util.List;
 @RestController
 //Trata a url base
 @RequestMapping("/api/clientes")
-//Permitir tudo no cross '*'
-@CrossOrigin("*")
 public class ClienteController {
 
     private final ClienteRepository repository;
